@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Sistema {
+    // Atributos
     private List<Proveedor> proveedores = new ArrayList<>();
     private List<Producto> productos = new ArrayList<>();
     private List<Usuario> usuarios = new ArrayList<>();
@@ -15,9 +16,13 @@ public class Sistema {
         sistema.iniciarSistema();
     }
 
-    public void mostrarMenuPrincipal() {
+    public void iniciarSistema() {
+        mostrarMenuPrincipal();
+    }
+
+    private void mostrarMenuPrincipal() {
         while (true) {
-            System.out.println("\n===== SISTEMA DE COMPRA =====");
+            System.out.println("\n===== SISTEMA DE COMPRAS ERP =====");
             System.out.println("1. Registrar usuario");
             System.out.println("2. Registrar proveedor");
             System.out.println("3. Registrar producto");
@@ -34,63 +39,30 @@ public class Sistema {
             System.out.println("14. Mostrar total solicitud");
             System.out.println("15. Salir");
             System.out.print("Seleccione una opción: ");
+
             int opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
-                case 1:
-                    registrarUsuario();
-                    break;
-                case 2:
-                    registrarProveedor();
-                    break;
-                case 3:
-                    registrarProducto();
-                    break;
-                case 4:
-                    crearSolicitud();
-                    break;
-                case 5:
-                    listarUsuarios();
-                    break;
-                case 6:
-                    listarProveedores();
-                    break;
-                case 7:
-                    listarProductos();
-                    break;
-                case 8:
-                    listarSolicitudes();
-                    break;
-                case 9:
-                    buscarUsuario();
-                    break;
-                case 10:
-                    buscarProveedor();
-                    break;
-                case 11:
-                    buscarProducto();
-                    break;
-                case 12:
-                    buscarSolicitud();
-                    break;
-                case 13:
-                    cambiarEstadoSolicitud();
-                    break;
-                case 14:
-                    mostrarTotalSolicitud();
-                    break;
-                case 15:
-                    System.exit(0);
-                default:
-                    System.out.println("Opción no válida");
+                case 1: registrarUsuario(); break;
+                case 2: registrarProveedor(); break;
+                case 3: registrarProducto(); break;
+                case 4: crearSolicitud(); break;
+                case 5: listarUsuarios(); break;
+                case 6: listarProveedores(); break;
+                case 7: listarProductos(); break;
+                case 8: listarSolicitudes(); break;
+                case 9: buscarUsuario(); break;
+                case 10: buscarProveedor(); break;
+                case 11: buscarProducto(); break;
+                case 12: buscarSolicitud(); break;
+                case 13: cambiarEstadoSolicitud(); break;
+                case 14: mostrarTotalSolicitud(); break;
+                case 15: System.exit(0);
+                default: System.out.println("Opción no válida");
             }
         }
     }
-    public void iniciarSistema() {
-        mostrarMenuPrincipal();
-    }
-    // METODOS DE USUSARIO
     public void registrarUsuario() {
         System.out.println("\n=== REGISTRAR USUARIO ===");
         System.out.print("Cédula: ");
@@ -134,7 +106,7 @@ public class Sistema {
         return null;
     }
 
-    public void buscarUsuario() {
+    private void buscarUsuario() {
         System.out.print("\nIngrese cédula: ");
         String cedula = scanner.nextLine();
         Usuario usuario = buscarUsuario(cedula);
@@ -160,7 +132,7 @@ public class Sistema {
         proveedores.add(new Proveedor(cedula, nombre, apellido, telefono));
         System.out.println("Proveedor registrado exitosamente");
     }
-    // METODOS DE PROVEEDOR
+
     public void listarProveedores() {
         System.out.println("\n=== LISTA DE PROVEEDORES ===");
         for (Proveedor proveedor : proveedores) {
@@ -214,7 +186,7 @@ public class Sistema {
             System.out.println("Proveedor no encontrado");
         }
     }
-    // METODOS DE PRODUCTO
+
     public void listarProductos() {
         System.out.println("\n=== LISTA DE PRODUCTOS ===");
         for (Producto producto : productos) {
@@ -294,7 +266,7 @@ public class Sistema {
             System.out.println("No se creó la solicitud (sin productos)");
         }
     }
-    //METODOS DE SOLICITUDES
+
     public void listarSolicitudes() {
         System.out.println("\n=== LISTA DE SOLICITUDES ===");
         for (Solicitud solicitud : solicitudes) {
@@ -303,7 +275,7 @@ public class Sistema {
             System.out.println("Estado: " + solicitud.getEstado());
             System.out.println("Productos:");
             for (ItemSolicitud item : solicitud.getItems()) {
-                System.out.printf("-Subtotal: \n",
+                System.out.printf("- %s x%d ($%.2f c/u) Subtotal: $%.2f\n",
                         item.getProducto().getNombre(),
                         item.getCantidad(),
                         item.getProducto().getPrecioUnidad(),
@@ -374,7 +346,7 @@ public class Sistema {
 
         Solicitud solicitud = buscarSolicitud(id);
         if (solicitud != null) {
-            System.out.printf("Total de la solicitud\n", id, solicitud.calcularTotal());
+            System.out.printf("Total de la solicitud #%d: $%.2f\n", id, solicitud.calcularTotal());
         } else {
             System.out.println("Solicitud no encontrada");
         }
