@@ -9,38 +9,37 @@ class Solicitud extends Documento implements Calculable {
     private Estado estado;
     private List<ItemSolicitud> items;
 
-    private int id;
-
-    public Solicitud(Usuario usuario, String information) {
+    public Solicitud(Usuario usuario, String informacion) {
         this.id = contador++;
         this.usuario = usuario;
+        this.informacion = informacion;
         this.estado = Estado.SOLICITADA;
         this.items = new ArrayList<>();
+    }
+
+    @Override
+    public double calcularSubTotal(ItemSolicitud item) {
+        return item.getProducto().getPrecioUnidad() * item.getCantidad();
+    }
+
+    @Override
+    public double calcularTotal() {
+        double total = 0;
+        for (ItemSolicitud item : items) {
+            total += this.calcularSubTotal(item);
+        }
+        return total;
     }
 
     public void agregarItem(Producto producto, int cantidad) {
         items.add(new ItemSolicitud(producto, cantidad));
     }
 
-    @Override
-    public double calculatorCostoTotal() {
-        double total = 0;
-        for (ItemSolicitud item : items) {
-            total += item.getProducto().getPrecioUnidad() * item.getCantidad();
-        }
-        return total;
-    }
-
-    @Override
-    public double calcularTotal() {
-        return calculatorCostoTotal();
-    }
-
     public void cambiarEstado(Estado nuevoEstado) {
         this.estado = nuevoEstado;
     }
 
-
+    // Getters
     public int getId() {
         return id;
     }
@@ -50,11 +49,6 @@ class Solicitud extends Documento implements Calculable {
     public List<ItemSolicitud> getItems() {
         return items;
     }
-
-    public static int getContador() {
-        return contador;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }

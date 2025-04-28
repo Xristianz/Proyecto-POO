@@ -13,11 +13,7 @@ class Producto {
         this.cantidad = cantidad;
     }
 
-    public double calculatorCosto() {
-        return precioUnidad * cantidad;
-    }
-
-
+    // Getters
     public String getIdProducto() {
         return idProducto;
     }
