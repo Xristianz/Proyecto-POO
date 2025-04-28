@@ -139,6 +139,59 @@ public class Sistema {
             System.out.println("Proveedor no encontrado");
         }
     }
+    public void registrarProducto() {
+        System.out.println("\n=== REGISTRAR PRODUCTO ===");
+        System.out.print("ID Producto: ");
+        String id = scanner.nextLine();
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Precio unitario: ");
+        double precio = scanner.nextDouble();
+        System.out.print("Cantidad inicial: ");
+        int cantidad = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Seleccione proveedor:");
+        listarProveedores();
+        System.out.print("Cédula proveedor: ");
+        Proveedor proveedor = buscarProveedor(scanner.nextLine());
+        if (proveedor != null) {
+            Producto producto = new Producto(id, nombre, precio, cantidad);
+            proveedor.agregarProducto(producto);
+            productos.add(producto);
+            System.out.println("Producto registrado exitosamente");
+        } else {
+            System.out.println("Proveedor no encontrado");
+        }
+    }
+
+    public void listarProductos() {
+        System.out.println("\n=== LISTA DE PRODUCTOS ===");
+        for (Producto producto : productos) {
+            System.out.println(producto.getIdProducto() + " - " + producto.getNombre() +
+                    " ($" + producto.getPrecioUnidad() + ")");
+        }
+    }
+
+    public Producto buscarProducto(String id) {
+        for (Producto producto : productos) {
+            if (producto.getIdProducto().equals(id)) {
+                return producto;
+            }
+        }
+        return null;
+    }
+
+    public void buscarProducto() {
+        System.out.print("\nIngrese nombre: ");
+        String nombre = scanner.nextLine().toLowerCase();
+        System.out.println("Resultados:");
+        for (Producto producto : productos) {
+            if (producto.getNombre().toLowerCase().contains(nombre)) {
+                System.out.println(producto.getIdProducto() + " - " + producto.getNombre() +
+                        " ($" + producto.getPrecioUnidad() + ")");
+            }
+        }
+    }
 
 
 }
