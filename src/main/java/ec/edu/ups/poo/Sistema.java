@@ -34,6 +34,57 @@ public class Sistema {
             System.out.println("14. Mostrar total solicitud");
             System.out.println("15. Salir");
             System.out.print("Seleccione una opción: ");
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    registrarUsuario();
+                    break;
+                case 2:
+                    registrarProveedor();
+                    break;
+                case 3:
+                    registrarProducto();
+                    break;
+                case 4:
+                    crearSolicitud();
+                    break;
+                case 5:
+                    listarUsuarios();
+                    break;
+                case 6:
+                    listarProveedores();
+                    break;
+                case 7:
+                    listarProductos();
+                    break;
+                case 8:
+                    listarSolicitudes();
+                    break;
+                case 9:
+                    buscarUsuario();
+                    break;
+                case 10:
+                    buscarProveedor();
+                    break;
+                case 11:
+                    buscarProducto();
+                    break;
+                case 12:
+                    buscarSolicitud();
+                    break;
+                case 13:
+                    cambiarEstadoSolicitud();
+                    break;
+                case 14:
+                    mostrarTotalSolicitud();
+                    break;
+                case 15:
+                    System.exit(0);
+                default:
+                    System.out.println("Opción no válida");
+            }
         }
     }
     public void iniciarSistema() {
@@ -109,7 +160,7 @@ public class Sistema {
         proveedores.add(new Proveedor(cedula, nombre, apellido, telefono));
         System.out.println("Proveedor registrado exitosamente");
     }
-
+    // METODOS DE PROVEEDOR
     public void listarProveedores() {
         System.out.println("\n=== LISTA DE PROVEEDORES ===");
         for (Proveedor proveedor : proveedores) {
@@ -163,7 +214,7 @@ public class Sistema {
             System.out.println("Proveedor no encontrado");
         }
     }
-
+    // METODOS DE PRODUCTO
     public void listarProductos() {
         System.out.println("\n=== LISTA DE PRODUCTOS ===");
         for (Producto producto : productos) {
@@ -192,6 +243,140 @@ public class Sistema {
             }
         }
     }
+    public void crearSolicitud() {
+        System.out.println("\n=== CREAR SOLICITUD ===");
+        if (usuarios.isEmpty() || productos.isEmpty()) {
+            System.out.println("Primero registre usuarios y productos");
+            return;
+        }
 
+        System.out.print("Cédula usuario: ");
+        Usuario usuario = buscarUsuario(scanner.nextLine());
 
+        if (usuario == null) {
+            System.out.println("Usuario no encontrado");
+            return;
+        }
+
+        System.out.print("Descripción: ");
+        String descripcion = scanner.nextLine();
+
+        Solicitud solicitud = new Solicitud(usuario, descripcion);
+        boolean agregando = true;
+
+        while (agregando) {
+            System.out.println("\nProductos disponibles:");
+            listarProductos();
+            System.out.print("ID Producto (o 'fin' para terminar): ");
+            String idProducto = scanner.nextLine();
+
+            if (idProducto.equalsIgnoreCase("fin")) {
+                agregando = false;
+            } else {
+                Producto producto = buscarProducto(idProducto);
+                if (producto != null) {
+                    System.out.print("Cantidad: ");
+                    int cantidad = scanner.nextInt();
+                    scanner.nextLine();
+                    solicitud.agregarItem(producto, cantidad);
+                    System.out.println("Producto agregado. Subtotal: $" +
+                            (producto.getPrecioUnidad() * cantidad));
+                } else {
+                    System.out.println("Producto no encontrado");
+                }
+            }
+        }
+
+        if (!solicitud.getItems().isEmpty()) {
+            solicitudes.add(solicitud);
+            System.out.println("Solicitud #" + solicitud.getId() + " creada");
+        } else {
+            System.out.println("No se creó la solicitud (sin productos)");
+        }
+    }
+    //METODOS DE SOLICITUDES
+    public void listarSolicitudes() {
+        System.out.println("\n=== LISTA DE SOLICITUDES ===");
+        for (Solicitud solicitud : solicitudes) {
+            System.out.println("\nSolicitud #" + solicitud.getId());
+            System.out.println("Usuario: " + solicitud.getUsuario().getNombre());
+            System.out.println("Estado: " + solicitud.getEstado());
+            System.out.println("Productos:");
+            for (ItemSolicitud item : solicitud.getItems()) {
+                System.out.printf("-Subtotal: \n",
+                        item.getProducto().getNombre(),
+                        item.getCantidad(),
+                        item.getProducto().getPrecioUnidad(),
+                        (item.getProducto().getPrecioUnidad() * item.getCantidad()));
+            }
+        }
+    }
+
+    public Solicitud buscarSolicitud(int id) {
+        for (Solicitud solicitud : solicitudes) {
+            if (solicitud.getId() == id) {
+                return solicitud;
+            }
+        }
+        return null;
+    }
+
+    public void buscarSolicitud() {
+        System.out.print("\nNúmero de solicitud: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Solicitud solicitud = buscarSolicitud(id);
+        if (solicitud != null) {
+            System.out.println("\nSolicitud #" + solicitud.getId());
+            System.out.println("Descripción: " + solicitud.getInformacion());
+            System.out.println("Estado: " + solicitud.getEstado());
+            System.out.println("Productos:");
+            for (ItemSolicitud item : solicitud.getItems()) {
+                System.out.println("- " + item.getProducto().getNombre() +
+                        " x" + item.getCantidad() +
+                        " ($" + item.getProducto().getPrecioUnidad() + ")");
+            }
+        } else {
+            System.out.println("Solicitud no encontrada");
+        }
+    }
+
+    public void cambiarEstadoSolicitud() {
+        System.out.print("\nNúmero de solicitud: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Solicitud solicitud = buscarSolicitud(id);
+        if (solicitud == null) {
+            System.out.println("Solicitud no encontrada");
+            return;
+        }
+
+        System.out.println("1. Aprobar");
+        System.out.println("2. Rechazar");
+        System.out.println("3. Poner en revisión");
+        System.out.print("Seleccione opción: ");
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcion) {
+            case 1: solicitud.cambiarEstado(Estado.APROBADA); break;
+            case 2: solicitud.cambiarEstado(Estado.RECHAZADA); break;
+            case 3: solicitud.cambiarEstado(Estado.ENREVISION); break;
+            default: System.out.println("Opción no válida");
+        }
+        System.out.println("Estado actualizado: " + solicitud.getEstado());
+    }
+    public void mostrarTotalSolicitud() {
+        System.out.print("\nNúmero de solicitud: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Solicitud solicitud = buscarSolicitud(id);
+        if (solicitud != null) {
+            System.out.printf("Total de la solicitud\n", id, solicitud.calcularTotal());
+        } else {
+            System.out.println("Solicitud no encontrada");
+        }
+    }
 }
