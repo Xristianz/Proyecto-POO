@@ -136,3 +136,15 @@ public enum Rol {
     ADMIN,
     EMPLEADO
 }
+
+### Estado
+
+Define los posibles estados de una solicitud:
+
+```java
+public enum Estado {
+    PENDIENTE,
+    APROBADA,
+    RECHAZADA,
+    ENREVISION
+}
