@@ -92,8 +92,11 @@ public class Sistema {
     public void listarUsuarios() {
         System.out.println("\n=== LISTA DE USUARIOS ===");
         for (Usuario usuario : usuarios) {
-            System.out.println(usuario.getCedula() + " - " + usuario.getNombre() +
-                    " " + usuario.getApellido() + " (" + usuario.getRol() + ")");
+            System.out.println(
+                    usuario.getCedula() + " - " +
+                            usuario.getNombre() + " " + usuario.getApellido() +
+                            " (" + usuario.getRol() + ") - Tel: " + usuario.getTelefono()
+            );
         }
     }
 
@@ -106,7 +109,7 @@ public class Sistema {
         return null;
     }
 
-    private void buscarUsuario() {
+    public void buscarUsuario() {
         System.out.print("\nIngrese cédula: ");
         String cedula = scanner.nextLine();
         Usuario usuario = buscarUsuario(cedula);
@@ -114,6 +117,7 @@ public class Sistema {
         if (usuario != null) {
             System.out.println("Usuario encontrado:");
             System.out.println("Nombre: " + usuario.getNombre() + " " + usuario.getApellido());
+            System.out.println("Teléfono: " + usuario.getTelefono());
             System.out.println("Rol: " + usuario.getRol());
         } else {
             System.out.println("Usuario no encontrado");
@@ -136,8 +140,8 @@ public class Sistema {
     public void listarProveedores() {
         System.out.println("\n=== LISTA DE PROVEEDORES ===");
         for (Proveedor proveedor : proveedores) {
-            System.out.println(proveedor.getCedula() + " - " + proveedor.getNombre() +
-                    " " + proveedor.getApellido());
+            System.out.println(proveedor.getCedula() + " - " + proveedor.getNombre() + " " + proveedor.getApellido() +
+                            " - Tel: " + proveedor.getTelefono());
         }
     }
 
@@ -158,6 +162,7 @@ public class Sistema {
         if (proveedor != null) {
             System.out.println("Proveedor encontrado:");
             System.out.println("Nombre: " + proveedor.getNombre() + " " + proveedor.getApellido());
+            System.out.println("Teléfono: " + proveedor.getTelefono());
         } else {
             System.out.println("Proveedor no encontrado");
         }
