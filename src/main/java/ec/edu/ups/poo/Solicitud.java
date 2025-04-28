@@ -39,7 +39,6 @@ class Solicitud extends Documento implements Calculable {
         this.estado = nuevoEstado;
     }
 
-    // Getters
     public int getId() {
         return id;
     }

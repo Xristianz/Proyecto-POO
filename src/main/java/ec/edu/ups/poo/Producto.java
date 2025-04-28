@@ -12,8 +12,6 @@ class Producto {
         this.precioUnidad = precioUnidad;
         this.cantidad = cantidad;
     }
-
-    // Getters
     public String getIdProducto() {
         return idProducto;
     }
