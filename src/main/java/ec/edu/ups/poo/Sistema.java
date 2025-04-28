@@ -96,6 +96,49 @@ public class Sistema {
             System.out.println("Usuario no encontrado");
         }
     }
+    public void registrarProveedor() {
+        System.out.println("\n=== REGISTRAR PROVEEDOR ===");
+        System.out.print("Cédula: ");
+        String cedula = scanner.nextLine();
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Apellido: ");
+        String apellido = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        proveedores.add(new Proveedor(cedula, nombre, apellido, telefono));
+        System.out.println("Proveedor registrado exitosamente");
+    }
+
+    public void listarProveedores() {
+        System.out.println("\n=== LISTA DE PROVEEDORES ===");
+        for (Proveedor proveedor : proveedores) {
+            System.out.println(proveedor.getCedula() + " - " + proveedor.getNombre() +
+                    " " + proveedor.getApellido());
+        }
+    }
+
+    public Proveedor buscarProveedor(String cedula) {
+        for (Proveedor proveedor : proveedores) {
+            if (proveedor.getCedula().equals(cedula)) {
+                return proveedor;
+            }
+        }
+        return null;
+    }
+
+    public void buscarProveedor() {
+        System.out.print("\nIngrese cédula: ");
+        String cedula = scanner.nextLine();
+        Proveedor proveedor = buscarProveedor(cedula);
+
+        if (proveedor != null) {
+            System.out.println("Proveedor encontrado:");
+            System.out.println("Nombre: " + proveedor.getNombre() + " " + proveedor.getApellido());
+        } else {
+            System.out.println("Proveedor no encontrado");
+        }
+    }
 
 
 }
