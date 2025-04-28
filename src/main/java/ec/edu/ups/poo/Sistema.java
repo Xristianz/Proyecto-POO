@@ -15,13 +15,9 @@ public class Sistema {
         sistema.iniciarSistema();
     }
 
-    public void iniciarSistema() {
-        mostrarMenuPrincipal();
-    }
-
-    private void mostrarMenuPrincipal() {
+    public void mostrarMenuPrincipal() {
         while (true) {
-            System.out.println("\n===== SISTEMA DE COMPRAS ERP =====");
+            System.out.println("\n===== SISTEMA DE COMPRA =====");
             System.out.println("1. Registrar usuario");
             System.out.println("2. Registrar proveedor");
             System.out.println("3. Registrar producto");
@@ -38,5 +34,68 @@ public class Sistema {
             System.out.println("14. Mostrar total solicitud");
             System.out.println("15. Salir");
             System.out.print("Seleccione una opción: ");
-        } }
+        }
+    }
+    public void iniciarSistema() {
+        mostrarMenuPrincipal();
+    }
+    // METODOS DE USUSARIO
+    public void registrarUsuario() {
+        System.out.println("\n=== REGISTRAR USUARIO ===");
+        System.out.print("Cédula: ");
+        String cedula = scanner.nextLine();
+
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Apellido: ");
+        String apellido = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+
+        System.out.println("Roles disponibles:");
+        for (Rol rol : Rol.values()) {
+            System.out.println("- " + rol);
+        }
+        System.out.print("Rol: ");
+        Rol rol = Rol.valueOf(scanner.nextLine().toUpperCase());
+
+        System.out.print("Departamento: ");
+        String departamento = scanner.nextLine();
+
+        usuarios.add(new Usuario(cedula, nombre, apellido, telefono, rol, departamento));
+        System.out.println("Usuario registrado exitosamente");
+    }
+
+    public void listarUsuarios() {
+        System.out.println("\n=== LISTA DE USUARIOS ===");
+        for (Usuario usuario : usuarios) {
+            System.out.println(usuario.getCedula() + " - " + usuario.getNombre() +
+                    " " + usuario.getApellido() + " (" + usuario.getRol() + ")");
+        }
+    }
+
+    public Usuario buscarUsuario(String cedula) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getCedula().equals(cedula)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public void buscarUsuario() {
+        System.out.print("\nIngrese cédula: ");
+        String cedula = scanner.nextLine();
+        Usuario usuario = buscarUsuario(cedula);
+
+        if (usuario != null) {
+            System.out.println("Usuario encontrado:");
+            System.out.println("Nombre: " + usuario.getNombre() + " " + usuario.getApellido());
+            System.out.println("Rol: " + usuario.getRol());
+        } else {
+            System.out.println("Usuario no encontrado");
+        }
+    }
+
+
 }
