@@ -136,7 +136,7 @@ public enum Rol {
     ADMIN,
     EMPLEADO
 }
-
+```
 ### Estado
 
 Define los posibles estados de una solicitud:
